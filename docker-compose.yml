@@ -6,7 +6,7 @@ services:
         limits:
           memory: 256m
     memswap_limit: 1792m
-    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+    command: [ "--array-size", "512", "--num-accesses", "100000000", "--verbose" ]
 
   mem512:
     build: .
@@ -15,7 +15,7 @@ services:
         limits:
           memory: 512m
     memswap_limit: 1536m
-    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+    command: [ "--array-size", "512", "--num-accesses", "100000000", "--verbose" ]
 
   mem1024:
     build: .
@@ -24,7 +24,7 @@ services:
         limits:
           memory: 1024m
     memswap_limit: 1024m
-    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+    command: [ "--array-size", "512", "--num-accesses", "100000000", "--verbose" ]
 
   mem2048:
     build: .
@@ -33,4 +33,4 @@ services:
         limits:
           memory: 2048m
     memswap_limit: 0m
-    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+    command: [ "--array-size", "512", "--num-accesses", "100000000", "--verbose" ]
