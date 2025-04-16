@@ -16,9 +16,10 @@ RUN apt update && \
 # 拷贝测试程序源码到容器中
 WORKDIR /app
 COPY memory_test.c .
+COPY run.sh .
 
 # 编译测试程序
 RUN gcc memory_test.c -o memory_test -O0
 
 # 设置默认启动命令
-ENTRYPOINT ["./memory_test"]
+ENTRYPOINT ["./run.sh"]
