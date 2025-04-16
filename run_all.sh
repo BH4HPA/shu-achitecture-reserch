@@ -7,15 +7,14 @@ mkdir -p "$LOG_DIR"
 
 run_test() {
   local mem_limit=$1
-  local swap_limit=$2
 
-  echo ">>> Running test: memory=${mem_limit}m, swap=${swap_limit}m, array-size=${ARRAY_SIZE}MB"
+  echo ">>> Running test: memory=${mem_limit}m, array-size=${ARRAY_SIZE}MB"
 
   local log_file="${LOG_DIR}/mem${mem_limit}_array${ARRAY_SIZE}.log"
 
   docker run --rm \
     --memory="${mem_limit}m" \
-    --memory-swap="${swap_limit}m" \
+    --memory-swap="-1" \
     memory-bench \
     --array-size "${ARRAY_SIZE}" \
     --num-accesses "${NUM_ACCESSES}" \
@@ -34,7 +33,7 @@ run_test() {
 
 docker build -t memory-bench .
 
-run_test 256 2048
-run_test 512 2048
-run_test 1024 2048
-run_test 2048 2048
+run_test 256
+run_test 512
+run_test 1024
+run_test 2048
