@@ -1,0 +1,36 @@
+services:
+  mem256:
+    build: .
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+    memswap_limit: 1792m
+    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+
+  mem512:
+    build: .
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+    memswap_limit: 1536m
+    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+
+  mem1024:
+    build: .
+    deploy:
+      resources:
+        limits:
+          memory: 1024m
+    memswap_limit: 1024m
+    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
+
+  mem2048:
+    build: .
+    deploy:
+      resources:
+        limits:
+          memory: 2048m
+    memswap_limit: 0m
+    command: [ "--array-size", "512", "--num-accesses", "100000000" ]
