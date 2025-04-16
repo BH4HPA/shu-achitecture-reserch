@@ -1,33 +1,40 @@
 #!/bin/bash
 
-# 默认参数：array size（单位 MB）
-ARRAY_SIZE=${1:-512}  # 如果没传就默认 512
+ARRAY_SIZE=${1:-512}
+NUM_ACCESSES=100000000
+LOG_DIR="logs"
+mkdir -p "$LOG_DIR"
 
-# 构造命令并执行，同时保存日志
 run_test() {
   local mem_limit=$1
   local swap_limit=$2
-  local tag=$3
 
   echo ">>> Running test: memory=${mem_limit}m, swap=${swap_limit}m, array-size=${ARRAY_SIZE}MB"
+
+  local log_file="${LOG_DIR}/mem${mem_limit}_array${ARRAY_SIZE}.log"
+
   docker run --rm \
     --memory="${mem_limit}m" \
     --memory-swap="${swap_limit}m" \
     memory-bench \
     --array-size "${ARRAY_SIZE}" \
-    --num-accesses 100000000 \
+    --num-accesses "${NUM_ACCESSES}" \
     --verbose \
-  | tee "logs/mem${mem_limit}_array${ARRAY_SIZE}.log"
+  | tee "$log_file"
+
+  local code=${PIPESTATUS[0]}
+
+  if [[ $code -ne 0 ]]; then
+    echo -e "\033[0;31m[Error] Test failed: mem=${mem_limit}m array=${ARRAY_SIZE}MB (exit code: $code)\033[0m"
+  else
+    echo -e "\033[0;32m[OK] Test passed: mem=${mem_limit}m array=${ARRAY_SIZE}MB\033[0m"
+  fi
   echo ""
 }
 
-# 创建日志目录
-mkdir -p logs
-
 docker build -t memory-bench .
 
-# 运行不同的配置
-run_test 256 2048  mem256
-run_test 512 2048  mem512
-run_test 1024 2048 mem1024
-run_test 2048 2048 mem2048
+run_test 256 2048
+run_test 512 2048
+run_test 1024 2048
+run_test 2048 2048
