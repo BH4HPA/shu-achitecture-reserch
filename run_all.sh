@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ARRAY_SIZE=${1:-128}
-NUM_ACCESSES=1000000
+ARRAY_SIZE=${1:-64}
+NUM_ACCESSES=10000000
 LOG_DIR="logs"
 mkdir -p "$LOG_DIR"
 
