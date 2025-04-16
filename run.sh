@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ./memory_test "$@" > >(tee /dev/stdout) &
 PID1=$!
